@@ -14,19 +14,112 @@ Generic transport providers to handle the transport of method calls to and from 
 
 ## Usage
 
-Installation -
+### Installation
 
 ```
 npm install --save @polkadot/api-provider
 ```
 
-Initialisation -
+### Initialisation
 
 ```js
 import WsProvider from '@polkadot/api-provider/ws';
 
 const provider = new WsProvider('http://127.0.0.1:9944');
-const version = await provider.send('client_version', []);
-
-console.log('clientVersion', version);
 ```
+
+Parameters
+1. `String` - `endpoint`: A valid websocket endpoint, should start with `ws://`
+2. `Boolean` - `autoConnect`:(optional) Defines whether connection should be automatically established. Default true
+
+Returns
+
+`Object`: The webservice provider instance
+
+
+### Usage
+
+#### connect
+
+```js
+provider.connect()
+```
+
+Establish connection with a websocket endpoint
+
+#### isConnected
+
+```js
+provider.isConnected()
+```
+
+Check if connection is established with a provider
+
+Returns
+
+`Boolean`
+
+#### on
+
+```js
+provider.on('connected', callback)
+```
+
+Event emitter interface - callback functions can be attached when `connected` and `disconnected` events are fired
+
+Parameters
+1. `type` - `String`: Event name
+2. `callback` - Callback function
+
+Returns
+
+`Object` - current WsProvider instance
+
+#### send
+
+```js
+provider.send('methodName', [params])
+```
+
+Relay instructions to provider node
+
+Parameters
+1. `method` - `String`: Method name
+2. `params` - `Array`
+3. `subscription` - `Object`:(optional) Subscription handler
+
+Returns
+
+`Promise` returns any type
+
+#### subscribe
+
+```js
+provider.subscribe('eventType', 'methodName', [params], callback)
+```
+
+Parameters
+1. `type` - `String`: Event type
+2. `method` - `String`: Method name
+3. `params` - `Array`
+4. `callback`
+
+Returns
+
+`Promise` returns Number
+
+#### unsubscribe
+
+```js
+provider.unsubscribe('eventType', 'methodName', id)
+```
+
+Parameters
+1. `type` - `String`: Event type
+2. `method` - `String`: Method name
+3. `id` - `Number`
+
+Returns
+
+`Promise` returns Boolean
+
